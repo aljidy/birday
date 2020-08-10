@@ -20,7 +20,6 @@
         android:paddingTop="@dimen/in_row_button_padding"
         android:paddingBottom="@dimen/in_row_button_padding"
         android:layout_weight="0.5"
-        android:contentDescription="@string/event_actions"
         app:icon="@drawable/ic_edit_24dp"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
         app:rippleColor="?colorAccent" />
@@ -36,7 +35,6 @@
         android:paddingTop="@dimen/in_row_button_padding"
         android:paddingBottom="@dimen/in_row_button_padding"
         android:layout_weight="0.5"
-        android:contentDescription="@string/event_actions"
         app:icon="@drawable/ic_delete_black_24dp"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
         app:rippleColor="?colorAccent" />

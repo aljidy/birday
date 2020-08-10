@@ -51,6 +51,7 @@
         app:elevation="@dimen/bottom_navbar_elevation"
         app:rippleColor="@color/deepGray"
         app:layout_anchor="@id/bottomBar"
+        android:contentDescription="@string/add_birthday_button_content_description"
         app:srcCompat="@drawable/ic_party_24dp"
         app:tint="@color/deepGray"/>
 

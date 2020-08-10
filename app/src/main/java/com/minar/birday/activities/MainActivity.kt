@@ -14,6 +14,9 @@ import android.net.Uri
 import android.os.*
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO
+import android.view.View.NOT_FOCUSABLE
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -34,8 +38,10 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.datetime.datePicker
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.internal.NavigationMenuItemView
 import com.minar.birday.R
 import com.minar.birday.adapters.EventAdapter
 import com.minar.birday.backup.BirdayImporter
@@ -110,7 +116,7 @@ class MainActivity : AppCompatActivity() {
         )
         navigation.setupWithNavController(navController)
         navigation.setOnNavigationItemReselectedListener {
-            // Just ignore the reselection of the same item
+            setupAccessibilityForBottomBar(navigation)
         }
 
         // Rating stuff
@@ -223,6 +229,47 @@ class MainActivity : AppCompatActivity() {
             name.addTextChangedListener(watcher)
             surname.addTextChangedListener(watcher)
             eventDate.addTextChangedListener(watcher)
+        }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        setupAccessibilityForBottomBar(findViewById<BottomNavigationView>(R.id.navigation))
+    }
+
+
+    private fun setupAccessibilityForBottomBar(navigation: BottomNavigationView?) {
+
+        // val x = findViewById<BottomNavigationItemView>(R.id.actionEmpty1)
+
+        navigation!!.menu!!.apply{
+
+            try{
+                val lastItemIndex = size()  -1
+                val secondLastItemIndex = size()  -2
+
+                getItem(lastItemIndex)!!.let{
+                    if(it.title.isNullOrBlank() && !it.isEnabled){
+                        findViewById<BottomNavigationItemView>(it.itemId).focusable = NOT_FOCUSABLE
+                        findViewById<BottomNavigationItemView>(it.itemId).importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
+                    }
+                }
+                getItem(secondLastItemIndex)!!.let{
+                    if(it.title.isNullOrBlank() && !it.isEnabled){
+                        findViewById<BottomNavigationItemView>(it.itemId).focusable = NOT_FOCUSABLE
+                        findViewById<BottomNavigationItemView>(it.itemId).importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
+                    }
+                }
+
+
+            } catch (ex : Exception){
+                println(ex)
+            }
+
+
+
         }
     }
 

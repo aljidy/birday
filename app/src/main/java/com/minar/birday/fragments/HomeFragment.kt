@@ -15,6 +15,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.FOCUSABLE
+import android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO
+import android.view.View.IMPORTANT_FOR_ACCESSIBILITY_YES
+import android.view.View.NOT_FOCUSABLE
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.DrawableRes
@@ -166,8 +170,12 @@ class HomeFragment : Fragment() {
             if (events.isNotEmpty()) {
                 insertUpcomingEvents(events)
                 removePlaceholder()
+                recyclerView.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_YES
             }
-            if (events.isEmpty()) restorePlaceholders()
+            if (events.isEmpty()) {
+                recyclerView.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
+                restorePlaceholders()
+            }
             if (events.isEmpty() && homeViewModel.searchStringLiveData.value!!.isNotBlank())
                 restorePlaceholders(true)
             // Update the widgets
